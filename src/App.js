@@ -4,14 +4,19 @@ import DraftEditor from  './DraftEditor';
 import NavBar from  './NavBar';
 import Advisorslist from  './Advisorslist';
 import Login from './login'
+import HomePage from './HomePage'
 
 
 
 class App extends Component {
-  render() {
+ 
+
+    render() {
+
     return (
       <div>
       <NavBar/>
+      {/* <HomePage/> */}
       <div className="divBox">
         <DraftEditor/>
       </div>

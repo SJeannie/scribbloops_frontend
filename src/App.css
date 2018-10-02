@@ -64,3 +64,25 @@ input[type=text]{
   left: 50%;
   transform: translate(-50%, -50%);
 }
+.portfolioListBox {
+  background-color: #ebe4ea;
+  border-radius: 25px;
+  height: fixed;
+  width: 45%;
+  padding: 20px;
+  border: 10px solid gray;
+  margin: 60px; 
+  float: left;
+}
+.newButton {
+  /* float: center; */
+  border-radius: 25px;
+  background-color: #48a7cc;
+  height: 30px;
+  width: 100px;
+  border: 5px solid rgb(119, 117, 117);
+  position: center;
+  /* top: 85%;
+  left: 50%; */
+  /* transform: translate(-50%, -50%); */
+}
