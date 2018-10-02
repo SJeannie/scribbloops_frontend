@@ -1,35 +1,19 @@
-
 import React, { Component } from 'react';
-import Editor from 'draft-js-plugins-editor';
-import createSideToolbarPlugin from 'draft-js-side-toolbar-plugin';
+import CurrentUser from './Currentuser'
+import PortfolioList from './PortfolioList'
+import DocumentList from './DocumentList'
 
-import { EditorState } from 'draft-js';
+class HomePage extends Component {
 
-const sideEditorPlugin = createSideToolbarPlugin();
-
-const plugins = [
-  sideEditorPlugin,
-];
-
-export default class UnicornEditor extends Component {
-
-  state = {
-    editorState: EditorState.createEmpty(),
-  };
-
-  onChange = (editorState) => {
-    this.setState({
-      editorState,
-    });
-  };
-
+  
   render() {
     return (
-      <Editor
-        editorState={this.state.editorState}
-        onChange={this.onChange}
-        plugins={plugins}
-      />
+      <div>
+      <CurrentUser/>
+      <PortfolioList/>
+      <DocumentList/>
+      </div>
     );
   }
 }
+export default HomePage;

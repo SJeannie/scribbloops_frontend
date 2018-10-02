@@ -1,4 +1,5 @@
 .usersBox {
+  border-radius: 25px;
   background-color: #ebe4ea;
   height: 500px;
   width: 30%;
@@ -8,7 +9,7 @@
   float: right;
 }
 .userCard {
-  
+  border-radius: 25px;
   width: 99%;
   background-color: #9ac1d3;
   height: 10%;
@@ -17,6 +18,7 @@
 
 }
 .smallImage{
+  border-radius: 25px;
   float:left;
   margin: auto;
   width: 60px;
@@ -28,4 +30,26 @@
 .userName{
   text-align: center;
 
+}
+.inviteButton {
+  /* float: center; */
+  background-color: #48a7cc;
+  height: 30px;
+  width: 100px;
+  border: 5px solid gray;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.signUpButton {
+  /* float: center; */
+  background-color: #48a7cc;
+  height: 30px;
+  width: 100px;
+  border: 5px solid rgb(119, 117, 117);
+  position: fixed;
+  top: 85%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
