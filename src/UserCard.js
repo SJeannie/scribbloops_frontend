@@ -7,14 +7,17 @@ class UserCard extends React.Component {
   state = {};
 
   render() {
-    return <div class="userCard">
-    <img class="smallImage" src={jeanniePic}></img>
-    <div class="userName">
-    UserName
-    </div> 
-    <button>Invite</button>
-    </div>
+    return(
+       <div className="userCard">
+        <img className="smallImage" src={jeanniePic}>
+        </img>
+        <div className="userName">
+        UserName
+        </div> 
+        <button>Invite</button>
+      </div>
+    )
   }
 }
 
-export default UserCard;
+export default UserCard; 

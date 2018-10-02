@@ -6,10 +6,10 @@
 .divBox {
   background-color: #ebe4ea;
   height: 1100px;
-  width: 800px;
+  width: 45%;
   padding: 20px;
   border: 10px solid gray;
-  margin: 100px; 
+  margin: 60px; 
   float: left;
 }
 .backgroundImg {
@@ -21,4 +21,46 @@
 body {
   background-image: url("./bg1.png");
   background-color: #ebe4ea;
+}
+.signInBox {
+  /* float: center; */
+  background-image: url("./LIB1.png");
+  height: 300px;
+  width: 300px;
+  border: 10px solid rgb(92, 92, 92);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+input[type=text]{
+  border: 5px solid #555;
+  display: block;
+  margin : 0 auto;
+  height: 20px;
+  width: 200px;
+  top: 50%;
+  left: 50%;
+}
+.signInButton {
+  /* float: center; */
+  background-color: #48a7cc;
+  height: 30px;
+  width: 100px;
+  border: 5px solid gray;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.signUpButton {
+  /* float: center; */
+  background-color: #48a7cc;
+  height: 30px;
+  width: 100px;
+  border: 5px solid rgb(119, 117, 117);
+  position: fixed;
+  top: 85%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

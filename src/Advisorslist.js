@@ -8,7 +8,7 @@ class Advisorslist extends React.Component {
 
   render() {
     return( 
-    <div class="usersBox">
+    <div className="usersBox">
       <UserCard/>
     </div>
     )
