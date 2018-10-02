@@ -5,13 +5,14 @@ import DocumentList from './DocumentList'
 
 class HomePage extends Component {
 
-  
+
   render() {
     return (
       <div>
-      <CurrentUser/>
-      <PortfolioList/>
-      <DocumentList/>
+    
+        <CurrentUser user={this.props.user} />
+        <PortfolioList />
+        {/* <DocumentList /> */}
       </div>
     );
   }

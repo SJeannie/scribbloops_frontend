@@ -12,7 +12,6 @@ window.WarpCable = WarpCable
 
 class App extends Component {
   state = {
-    isloggedIn: false,
     user: null
   }
 
@@ -28,31 +27,54 @@ class App extends Component {
       }
     })
       .then(resp => resp.json())
-      .then(data => localStorage.setItem('token', data.jwt))
-
-    if (localStorage.token) {
-      this.setState({
-        isloggedIn: true
+      // .then(data => console.log(data.jwt))
+      .then(data => {
+        if (data.jwt) {
+          localStorage.setItem('token', data.jwt)
+          this.handleProfile()
+        }
       })
-
-      fetch('http://localhost:3000/api/v1/profile', {
-
-      })
-    }
-
   }
 
+  handleProfile = () => {
+
+    fetch('http://localhost:3000/api/v1/profile', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${localStorage.token}`
+      }
+    })
+      .then(resp => resp.json())
+      .then(data => this.setState(state => {
+        // console.log(data)
+        state.user = data.user
+        // state.isloggedIn = true
+        return state
+      }))
+  }
+
+
+
   renderLogin = () => {
-    return this.state.isloggedIn ? (
-      <div><NavBar />
-        <div className="divBox">
-          <DraftEditor />
-        </div>
-        <Advisorslist />
-      </div>) : (
+    // console.log(this.state.user)
+    return localStorage.token ? (
+      <div>
+        <NavBar handleLogout={this.handleLogout} />
+        <HomePage user={this.state.user} />
+      </div>
+    ) : (
         <div>
           <Login handleLogin={this.handleLogIn} />
         </div>)
+  }
+
+  handleLogout = () => {
+    localStorage.clear()
+    this.setState(state => {
+      // state.isloggedIn = false
+      state.user = null
+      return state
+    })
   }
 
 

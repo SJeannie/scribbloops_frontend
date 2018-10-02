@@ -4,7 +4,7 @@ import './App.css'; ``
 
 class LogIn extends Component {
   state = {
-    username: 'shark',
+    username: '',
     password: ''
   }
 

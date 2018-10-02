@@ -5,15 +5,19 @@ class NavBar extends React.Component {
 
   state = {};
 
+  // handleLogout = () => {
+  //   this.props.handleLogout
+  // }
+
   render() {
-    return(
-       <div className="topnav">
-    <a className="active" href="#home">Home</a>
-    <a href="#navbar opt1">Portfolio</a>
-    <a href="#navbar opt2">Document</a>
-    <a href="#navbar opt3">Advisors</a>
-    
-    </div>
+    return (
+      <div className="topnav">
+        <a className="active" href="#home">Home</a>
+        <a href="#navbar opt1">Portfolio</a>
+        <a href="#navbar opt2">Document</a>
+        <a href="#navbar opt3">Advisors</a>
+        <button onClick={this.props.handleLogout}>Logout</button>
+      </div>
     )
   }
 }
