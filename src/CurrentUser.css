@@ -9,7 +9,7 @@
   float: right;
 }
 .userCard {
-  
+  border-radius: 25px;
   width: 99%;
   background-color: #9ac1d3;
   height: 10%;
