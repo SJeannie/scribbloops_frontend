@@ -13,8 +13,8 @@ class DraftEditor extends React.Component {
 
   render() {
     return <div>
-     Scribbloops Draft Editor
-      <Editor 
+     Welcome Scribbloops Draft Editor
+      <Editor
         onChange={(editorState) => this.setState({ editorState })}
         editorState={this.state.editorState}
       />
