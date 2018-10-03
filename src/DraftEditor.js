@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-// import Editor from 'draft-js-editor'
-import { EditorState, Editor, convertToRaw } from 'draft-js';
+import Editor from 'draft-js-editor'
+import { EditorState, convertToRaw } from 'draft-js';
 
 
 
