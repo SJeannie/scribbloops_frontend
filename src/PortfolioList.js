@@ -2,23 +2,72 @@ import React, { Component } from 'react';
 import PortfolioCard from './PortfolioCard'
 
 export default class PortfolioList extends Component {
+  state = {
+    newPortfolio: ''
+  }
+  componentDidMount = () => {
+    this.getPortfolios()
+  }
 
+
+  getPortfolios = () => {
+    fetch('http://localhost:3000/portfolios', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${localStorage.token}`
+      }
+    })
+      .then(resp => resp.json())
+      // .then(data => console.log(data))
+      .then(data => this.props.updatePortfolios(data))
+  }
+
+  createPortfolio = (e) => {
+    e.preventDefault()
+    if (this.state.newPortfolio.length > 2) {
+      fetch('http://localhost:3000/portfolios', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'Application/JSON',
+          Authorization: `Bearer ${localStorage.token}`
+        },
+        body: JSON.stringify({ portfolio: { name: this.state.newPortfolio } })
+      })
+        .then(resp => resp.json())
+        .then(crap => this.getPortfolios(crap))
+    }
+  }
+
+
+
+  handleNewName = (e) => {
+    let name = e.target.value
+    this.setState({
+      newPortfolio: name
+    })
+  }
+
+
+  putPortfolioCards = () => (
+    this.props.portfolios.length > 0 ? this.props.portfolios.map(portfolio => (
+      <PortfolioCard key={portfolio.id} portfolio={portfolio} />
+    )) : ''
+  )
 
   render() {
     return (
       <div className="portfolioListBox">
 
-        <form>
-          <input type="text" placeholder="NewPortfolio">
+        <form onSubmit={e => this.createPortfolio(e)} onChange={this.handleNewName}>
+          <input type="text" name="newPortfolio" placeholder="NewPortfolio">
           </input>
           <button className="newButton">
             New Portfolio
           </button>
         </form>
         <br />
-        PortfolioList
-        <PortfolioCard />
-
+        {/* <h2>PortfolioList</h2> */}
+        {this.putPortfolioCards()}
       </div>
     )
   }

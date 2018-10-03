@@ -12,11 +12,21 @@ window.WarpCable = WarpCable
 
 class App extends Component {
   state = {
+    reRender: false,
     user: null
   }
 
+  componentDidMount = () => {
+    if (localStorage.user) {
+      this.setState(state => {
+        state.user = this.retrieveObject()
+        return state
+      })
+
+    }
+  }
+
   handleLogIn = (loginState) => {
-    // debugger
     fetch('http://localhost:3000/api/v1/login', {
       method: "POST",
       body: JSON.stringify({
@@ -27,17 +37,15 @@ class App extends Component {
       }
     })
       .then(resp => resp.json())
-      // .then(data => console.log(data.jwt))
       .then(data => {
         if (data.jwt) {
           localStorage.setItem('token', data.jwt)
-          this.handleProfile()
+          this.handleGetProfile()
         }
       })
   }
 
-  handleProfile = () => {
-
+  handleGetProfile = () => {
     fetch('http://localhost:3000/api/v1/profile', {
       method: 'GET',
       headers: {
@@ -45,44 +53,52 @@ class App extends Component {
       }
     })
       .then(resp => resp.json())
-      .then(data => this.setState(state => {
-        // console.log(data)
-        state.user = data.user
-        // state.isloggedIn = true
-        return state
-      }))
-  }
+      .then(data => {
 
+        localStorage.setItem('user', JSON.stringify(data.user))
+        this.setState(state => {
+          state.user = data.user
+          return state
+        })
+      })
 
-
-  renderLogin = () => {
-    // console.log(this.state.user)
-    return localStorage.token ? (
-      <div>
-        <NavBar handleLogout={this.handleLogout} />
-        <HomePage user={this.state.user} />
-      </div>
-    ) : (
-        <div>
-          <Login handleLogin={this.handleLogIn} />
-        </div>)
+    this.handleReRender()
   }
 
   handleLogout = () => {
     localStorage.clear()
+    this.handleReRender()
+  }
+
+  handleReRender = () => {
     this.setState(state => {
-      // state.isloggedIn = false
-      state.user = null
+      state.reRender = !this.state.reRender
       return state
     })
   }
 
+  retrieveObject = () => {
+    let userObject = localStorage.getItem('user')
+    // console.log(userObject)
+    return JSON.parse(userObject)
+  }
 
   render() {
     return (
       this.renderLogin()
     );
   }
-}
 
+  renderLogin = () => {
+    return localStorage.token ? (
+      <div>
+        <NavBar handleLogout={this.handleLogout} />
+        <HomePage user={this.state.user} handleReRender={this.handleReRender}/>
+      </div>
+    ) : (
+        <div>
+          <Login handleLogin={this.handleLogIn} />
+        </div>)
+  }
+}
 export default App;
