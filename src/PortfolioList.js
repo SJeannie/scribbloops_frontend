@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PortfolioCard from './PortfolioCard'
+import DocumentList from './DocumentList'
 
 export default class PortfolioList extends Component {
   state = {
-    newPortfolio: ''
+    newPortfolio: '',
+    currentPortfolio: null
   }
   componentDidMount = () => {
     this.getPortfolios()
@@ -38,6 +40,16 @@ export default class PortfolioList extends Component {
     }
   }
 
+  handleRenderSinglePortfolio = () => (
+    this.state.currentPortfolio ? <DocumentList /> : this.putPortfolioCards()
+  )
+
+  handleSinglePortfolio = (portfolio) => {
+    this.setState({
+      currentPortfolio: portfolio
+    })
+  }
+
 
 
   handleNewName = (e) => {
@@ -50,7 +62,7 @@ export default class PortfolioList extends Component {
 
   putPortfolioCards = () => (
     this.props.portfolios.length > 0 ? this.props.portfolios.map(portfolio => (
-      <PortfolioCard key={portfolio.id} portfolio={portfolio} />
+      <PortfolioCard key={portfolio.id} portfolio={portfolio} show={this.handleSinglePortfolio} />
     )) : ''
   )
 
@@ -67,7 +79,7 @@ export default class PortfolioList extends Component {
         </form>
         <br />
         {/* <h2>PortfolioList</h2> */}
-        {this.putPortfolioCards()}
+        {this.handleRenderSinglePortfolio()}
       </div>
     )
   }
