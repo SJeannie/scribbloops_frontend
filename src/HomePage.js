@@ -23,7 +23,7 @@ class HomePage extends Component {
       <div>
 
         <CurrentUser user={this.props.user} />
-        <PortfolioList portfolios={this.state.portfolios} handleReRender={this.props.handleReRender} updatePortfolios={this.updatePortfolios} />
+        <PortfolioList portfolios={this.state.portfolios} handleReRender={this.props.handleReRender} updatePortfolios={this.updatePortfolios} returnToPortfolio={this.props.returnToPortfolio} />
         {/* <DocumentList /> */}
       </div>
     );

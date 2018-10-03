@@ -5,6 +5,7 @@ import NavBar from './NavBar';
 import Advisorslist from './Advisorslist';
 import Login from './login'
 import HomePage from './HomePage'
+import { Route, NavLink, Switch, Redirect } from "react-router-dom";
 
 import WarpCable from 'warp-cable-client'
 
@@ -89,11 +90,36 @@ class App extends Component {
     );
   }
 
+  returnToPortfolioList = (childFunction) => {
+    childFunction()
+  }
+
   renderLogin = () => {
     return localStorage.token ? (
       <div>
-        <NavBar handleLogout={this.handleLogout} />
-        <HomePage user={this.state.user} handleReRender={this.handleReRender}/>
+        <div>
+          <div className="topnav">
+            <a className="active" href="#home">Home</a>
+            <NavLink to="/homePage" activeClassName="active">Portfolio</NavLink>
+            <a href="#navbar opt2">Document</a>
+            <a href="#navbar opt3">Advisors</a>
+            <button onClick={this.handleLogout}>Logout</button>
+
+
+
+          </div>
+          <Switch>
+            <Route path="/homePage" component={HomePage} />
+          </Switch>
+        </div>
+
+
+
+
+
+
+        {/* <NavBar handleLogout={this.handleLogout} /> */}
+        {/* <HomePage user={this.state.user} handleReRender={this.handleReRender} returnToPortfolio={this.returnToPortfolioList} /> */}
       </div>
     ) : (
         <div>

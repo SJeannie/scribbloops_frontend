@@ -41,13 +41,17 @@ export default class PortfolioList extends Component {
   }
 
   handleRenderSinglePortfolio = () => (
-    this.state.currentPortfolio ? <DocumentList /> : this.putPortfolioCards()
+    this.state.currentPortfolio ? <DocumentList returnToPortfolioList={this.resetCurrentPortfolio} currentPortfolio={this.state.currentPortfolio} /> : this.putPortfolioCards()
   )
 
   handleSinglePortfolio = (portfolio) => {
     this.setState({
       currentPortfolio: portfolio
     })
+  }
+
+  handleBackButton = () => {
+
   }
 
 
@@ -59,6 +63,24 @@ export default class PortfolioList extends Component {
     })
   }
 
+  resetCurrentPortfolio = () => {
+    this.setState({
+      currentPortfolio: null
+    })
+  }
+
+  putPortfolioCreateForm = () => (
+    !this.state.currentPortfolio ? (
+      <form onSubmit={e => this.createPortfolio(e)} onChange={this.handleNewName}>
+        <input type="text" name="newPortfolio" placeholder="NewPortfolio">
+        </input>
+        <button className="newButton">
+          New Portfolio
+          </button>
+      </form>
+    ) : ''
+  )
+
 
   putPortfolioCards = () => (
     this.props.portfolios.length > 0 ? this.props.portfolios.map(portfolio => (
@@ -69,14 +91,7 @@ export default class PortfolioList extends Component {
   render() {
     return (
       <div className="portfolioListBox">
-
-        <form onSubmit={e => this.createPortfolio(e)} onChange={this.handleNewName}>
-          <input type="text" name="newPortfolio" placeholder="NewPortfolio">
-          </input>
-          <button className="newButton">
-            New Portfolio
-          </button>
-        </form>
+        {this.putPortfolioCreateForm()}
         <br />
         {/* <h2>PortfolioList</h2> */}
         {this.handleRenderSinglePortfolio()}
