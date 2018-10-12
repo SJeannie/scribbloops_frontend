@@ -7,10 +7,14 @@
     "draft-js-editor": "^1.12.4",
     "draft-js-plugins-editor": "^2.1.1",
     "draft-js-side-toolbar-plugin": "^3.0.0",
+    "immutable": "^3.8.2",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
+    "react-icons-kit": "^1.2.0",
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.5",
+    "slate": "^0.42.2",
+    "slate-react": "^0.19.3",
     "warp-cable-client": "^1.0.4"
   },
   "scripts": {
