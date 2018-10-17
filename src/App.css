@@ -1,4 +1,3 @@
-
 .App {
   text-align: center;
 }
@@ -10,7 +9,7 @@
   width: 45%;
   padding: 20px;
   border: 10px solid gray;
-  margin: 60px; 
+  margin: 60px;
   float: left;
 }
 .backgroundImg {
@@ -20,13 +19,13 @@
   width: 50%;
 }
 body {
-  background-image: url("./bg1.png");
+  background-image: url('./bg1.png');
   background-color: #ebe4ea;
 }
 .signInBox {
   /* float: center; */
   border-radius: 25px;
-  background-image: url("./LIB1.png");
+  background-image: url('./LIB1.png');
   height: 300px;
   width: 300px;
   border: 10px solid rgb(92, 92, 92);
@@ -35,11 +34,11 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-input[type=text]{
+input[type='text'] {
   border-radius: 25px;
   border: 5px solid #555;
   display: block;
-  margin : 0 auto;
+  margin: 0 auto;
   height: 20px;
   width: 200px;
   top: 50%;
@@ -76,7 +75,7 @@ input[type=text]{
   width: 45%;
   padding: 20px;
   border: 10px solid gray;
-  margin: 60px; 
+  margin: 60px;
   float: left;
 }
 .newButton {
@@ -90,4 +89,46 @@ input[type=text]{
   /* top: 85%;
   left: 50%; */
   /* transform: translate(-50%, -50%); */
+}
+
+/* .App {
+  text-align: justify;
+} */
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.screentitle {
+  align-items: center;
+  text-align: center;
+  font-family: 'Frutiger';
+  /* color: 'MediumSeaGreen'; */
+  background: rgb(240, 160, 80);
+  color: rgb(60, 180, 120);
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

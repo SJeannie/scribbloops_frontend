@@ -5,7 +5,7 @@
   width: 25%;
   padding: 5px;
   border: 10px solid gray;
-  margin: 20px; 
+  margin: 20px;
   float: right;
 }
 .userCard {
@@ -15,23 +15,20 @@
   height: 10%;
   /* width: 399px; */
   border: 5px solid rgb(121, 94, 143);
-
 }
-.largeImage{
+.largeImage {
   display: flex;
   align-items: center;
   vertical-align: middle;
   /* margin: 0 ; */
-  float:left;
+  float: left;
   margin: auto;
   width: 80px;
   height: 80px;
   border: 1px solid gray;
   background-color: #9ac1d3;
-
 }
-.userName{
-  text-align: center;
+.userName {
+  text-align: right;
   color: #66489e;
-
 }

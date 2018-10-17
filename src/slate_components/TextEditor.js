@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Editor } from 'slate-react';
 // import { change } from 'slate-react';
 import { Value } from 'slate'; // import value object from Slate
+import { Warp_URL } from './constants';
 import Icon from 'react-icons-kit';
 
 import { feather } from 'react-icons-kit/feather/feather';
@@ -21,6 +22,9 @@ import { code } from 'react-icons-kit/feather/code';
 import { list } from 'react-icons-kit/feather/list';
 
 import { BoldMark, ItalicMark, FormatToolbar } from './index';
+import _ from 'lodash';
+import WarpCable from 'warp-cable-client';
+const api = WarpCable(Warp_URL);
 
 const initialValue = Value.fromJSON({
   document: {
@@ -43,6 +47,8 @@ const initialValue = Value.fromJSON({
   }
 });
 
+// <Search onSearchChange={_.debounce(() => console.log('🤔'), 500)} showNoResults = {false} /> // lodash method _.debounce()
+
 export default class TextEditor extends Component {
   //Pass the initial value from the Slate editor to the state.
   state = {
@@ -50,8 +56,30 @@ export default class TextEditor extends Component {
     alignment: 'alignLeft',
     userID: null,
     ownerID: null,
-    isTyping: false
+    isTyping: false,
+    isLoading: true // added from DraftEditor
   };
+
+  // componentDidMount added from DraftEditor; where is isEditing coming from? Or
+  // componentDidMount = () => {
+  //   api.subscribe(
+  //     'Documents',
+  //     'show',
+  //     { id: this.props.document.id },
+  //     (document) => {
+  //       console.log(document.content);
+  //       if (this.state.isEditing) return;
+  //       this.setState({
+  //         isLoading: false,
+  //         editorState: document.content
+  //           ? EditorState.createWithContent(
+  //               convertFromRaw(JSON.parse(document.content))
+  //             )
+  //           : EditorState.createEmpty()
+  //       });
+  //     }
+  //   );
+  // };
 
   onChange = ({ value }) => {
     this.setState({ value }, () => {
