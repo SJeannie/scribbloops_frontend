@@ -26,7 +26,6 @@ import _ from 'lodash';
 import WarpCable from 'warp-cable-client';
 const api = WarpCable(Warp_URL);
 let timer;
-
 // import InsertImages from 'slate-drop-or-paste-images';
 // import CollapseOnEscape from 'slate-collapse-on-escape';
 // import MarkHotkeys from 'slate-mark-hotkeys';
@@ -78,16 +77,18 @@ const initialValue = Value.fromJSON({
 export default class TextEditor extends Component {
   constructor(props) {
     super(props);
-    //this.updateEditor = _.debounce(this.updateEditor, 500);
+    this.updateEditor = _.debounce(this.updateEditor, 300);
   }
   // extend Component or React.Component??
   //Pass the initial value from the Slate editor to the state.
   state = {
     value: initialValue,
+    realTime: null,
     alignment: 'alignLeft',
     userID: null,
     ownerID: null,
     isTyping: false,
+    someoneElseIsTyping: false,
     isLoading: true // added from DraftEditor
   };
 
@@ -118,19 +119,20 @@ export default class TextEditor extends Component {
 
   updateEditor = (document) => {
     console.log('here');
-    window.clearTimeout(this.timer);
+    // window.clearTimeout(this.timer);
     this.setState({ someoneElseIsTyping: true });
-    this.timer = window.setTimeout(() => {
-      console.log('in here');
-      //_.debounce(() => {
-      console.log('doc content', document.content);
-      const docValue = Value.fromJSON(JSON.parse(document.content));
-      // instantiating a Value instance with Slate class method fromJSON
-      this.setState({
-        someoneElseIsTyping: false,
-        value: docValue
-      });
-    }, 1000);
+    // this.timer = window.setTimeout(() => {
+    console.log('in here');
+    //_.debounce(() => {
+    console.log('doc content', document.content);
+    const docValue = Value.fromJSON(JSON.parse(document.content));
+    // instantiating a Value instance with Slate class method fromJSON
+    this.setState({
+      someoneElseIsTyping: false,
+      value: docValue,
+      realTime: null
+    });
+    // }, 500);
     //}, 500)();
   };
 
@@ -150,12 +152,16 @@ export default class TextEditor extends Component {
   // };
 
   onChange = ({ value }) => {
+    const { isTyping } = this.state;
+
+    if (isTyping) this.setState({ realTime: value });
+
     console.log('changing!!!');
     // clearTimeout(this.state.timer);
     // clearTimeout(timer);
     // timer = setTimeout(() => this.setState({ isTyping: false }), 1000);
 
-    this.setState({ value: value, isTyping: true }, () => {
+    this.setState({ value: value, realTime: value, isTyping: true }, () => {
       const content = JSON.stringify(value.toJSON());
       // localStorage.setItem('content', content);
       console.log(this.props.document);
@@ -248,6 +254,8 @@ export default class TextEditor extends Component {
   };
 
   render() {
+    const { realTime, value } = this.state;
+
     return (
       <div>
         <div>
@@ -330,7 +338,7 @@ export default class TextEditor extends Component {
           {/* <Editor /> is native to Slate.*/}
           <Editor
             ref={this.ref} // ref ~ document.querySelector(); React finds ref() and automatically calls the function associated with it inside render()
-            value={this.state.value}
+            value={realTime ? realTime : value}
             onChange={this.onChange}
             onKeyDown={this.onKeyDown}
             renderMark={this.renderMark}
