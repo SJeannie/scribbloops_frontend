@@ -14,7 +14,7 @@ export default class HomePage extends Component {
   };
 
   componentDidMount = () => {
-    console.log('Document List: ' + this.props);
+    //console.log('Document List: ' + this.props);
     this.getDocuments();
   };
   getDocuments = () => {
@@ -58,7 +58,7 @@ export default class HomePage extends Component {
     });
 
   render() {
-    console.log(this.state.documents);
+    //console.log(this.state.documents);
     return this.state.currentDocument ? (
       // <DraftEditor document={this.state.currentDocument} />
       <TextEditor document={this.state.currentDocument} />
@@ -82,7 +82,9 @@ export default class HomePage extends Component {
           <input name="title" placeholder="document name" />
           <button>create document</button>
         </form>
-        <button onClick={this.props.returnToPortfolioList}>Return</button>
+        <button onClick={this.props.returnToPortfolioList}>
+          Return to list
+        </button>
         {this.state.currentDocument ? (
           ''
         ) : (

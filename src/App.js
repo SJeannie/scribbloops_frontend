@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { API_URL } from './constants';
 import { Warp_URL } from './constants';
-
+import './NavBar.css';
 import './App.css';
 import DraftEditor from './DraftEditor';
 import NavBar from './NavBar';
@@ -67,6 +67,7 @@ class App extends Component {
   };
 
   handleLogout = () => {
+    console.log('logged out');
     localStorage.clear();
     this.handleReRender();
   };
@@ -96,16 +97,23 @@ class App extends Component {
     return localStorage.token ? (
       <div>
         <div>
-          <div className="topnav">
-            <a className="active" href="#home">
+          <div className="topnav active">
+            <a activeClassName="active" href="#home">
               Home
             </a>
-            <NavLink to="/homePage" activeClassName="active">
+            <NavBar handleLogout={this.handleLogout} />
+            {/* <NavLink to="/homePage" activeClassName="active">
               Portfolio
-            </NavLink>
-            <a href="#navbar opt2">Document</a>
-            <a href="#navbar opt3">Advisors</a>
-            <button onClick={this.handleLogout}>Logout</button>
+            </NavLink> */}
+            {/* <a href="#navbar opt2">Document</a>
+            <a href="#navbar opt3">Advisors</a> */}
+            {/* <a
+              activeClassName="active"
+              href="#login"
+              onClick={this.handleLogout}>
+              Logout
+            </a> */}
+            {/* <button onClick={this.handleLogout}>Logout</button> */}
           </div>
           <Switch>
             <Route path="/homePage" component={HomePage} />

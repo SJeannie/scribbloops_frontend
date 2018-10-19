@@ -77,8 +77,12 @@ export default class PortfolioList extends Component {
       <form
         onSubmit={(e) => this.createPortfolio(e)}
         onChange={this.handleNewName}>
-        <input type="text" name="newPortfolio" placeholder="NewPortfolio" />
-        <button className="newButton">New Portfolio</button>
+        <input
+          type="text"
+          name="newPortfolio"
+          placeholder="Type a new portfolio name here..."
+        />
+        <button className="newButton">Create</button>
       </form>
     ) : (
       ''

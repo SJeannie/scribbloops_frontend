@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Editor } from 'slate-react';
 // import { change } from 'slate-react';
 import { Value } from 'slate'; // import value object from Slate
-import { Warp_URL } from './constants';
+import { Warp_URL } from '../constants';
 import Icon from 'react-icons-kit';
 
 import { feather } from 'react-icons-kit/feather/feather';
@@ -25,6 +25,32 @@ import { BoldMark, ItalicMark, FormatToolbar } from './index';
 import _ from 'lodash';
 import WarpCable from 'warp-cable-client';
 const api = WarpCable(Warp_URL);
+let timer;
+
+// import InsertImages from 'slate-drop-or-paste-images';
+// import CollapseOnEscape from 'slate-collapse-on-escape';
+// import MarkHotkeys from 'slate-mark-hotkeys';
+// import PasteLinkify from 'slate-paste-linkify';
+// import SoftBreak from 'slate-soft-break';
+// import { Editor } from 'slate-react';
+
+// // Add the plugin to your set of plugins...
+// const plugins = [
+//   InsertImages({
+//     extensions: ['png'],
+//     insertImage: (transform, file) => {
+//       return transform.insertBlock({
+//         type: 'image',
+//         isVoid: true,
+//         data: { file }
+//       });
+//     },
+//     CollapseOnEscape: CollapseOnEscape(),
+//     MarkHotkeys: MarkHotkeys(),
+//     PasteLinkify: PasteLinkify(),
+//     SoftBreak: SoftBreak()
+//   })
+// ];
 
 const initialValue = Value.fromJSON({
   document: {
@@ -50,6 +76,11 @@ const initialValue = Value.fromJSON({
 // <Search onSearchChange={_.debounce(() => console.log('🤔'), 500)} showNoResults = {false} /> // lodash method _.debounce()
 
 export default class TextEditor extends Component {
+  constructor(props) {
+    super(props);
+    //this.updateEditor = _.debounce(this.updateEditor, 500);
+  }
+  // extend Component or React.Component??
   //Pass the initial value from the Slate editor to the state.
   state = {
     value: initialValue,
@@ -60,35 +91,84 @@ export default class TextEditor extends Component {
     isLoading: true // added from DraftEditor
   };
 
-  // componentDidMount added from DraftEditor; where is isEditing coming from? Or
-  // componentDidMount = () => {
-  //   api.subscribe(
-  //     'Documents',
-  //     'show',
-  //     { id: this.props.document.id },
-  //     (document) => {
-  //       console.log(document.content);
-  //       if (this.state.isEditing) return;
-  //       this.setState({
-  //         isLoading: false,
-  //         editorState: document.content
-  //           ? EditorState.createWithContent(
-  //               convertFromRaw(JSON.parse(document.content))
-  //             )
-  //           : EditorState.createEmpty()
-  //       });
-  //     }
+  // componentDidMount added from DraftEditor; where is isEditing coming from? Can isTyping be used instead?
+  componentDidMount = () => {
+    api.subscribe(
+      'Documents',
+      'show',
+      { id: this.props.document.id },
+      (document) => {
+        if (this.state.isTyping) return;
+        // this.updateEditor(document);
+        // const docValue = Value.fromJSON(JSON.parse(document.content));
+        // // instantiating a Value instance with Slate class method fromJSON
+        // this.setState({
+        //   value: docValue
+        // });
+
+        // const docValue = Value.fromJSON(JSON.parse(document.content));
+        // // instantiating a Value instance with Slate class method fromJSON
+        // this.setState({
+        //   value: docValue
+        // });
+        this.updateEditor(document);
+      }
+    );
+  };
+
+  updateEditor = (document) => {
+    console.log('here');
+    window.clearTimeout(this.timer);
+    this.setState({ someoneElseIsTyping: true });
+    this.timer = window.setTimeout(() => {
+      console.log('in here');
+      //_.debounce(() => {
+      console.log('doc content', document.content);
+      const docValue = Value.fromJSON(JSON.parse(document.content));
+      // instantiating a Value instance with Slate class method fromJSON
+      this.setState({
+        someoneElseIsTyping: false,
+        value: docValue
+      });
+    }, 1000);
+    //}, 500)();
+  };
+
+  // editDocument added from DraftEditor; editorState and getCurrentContent() native to Draft
+  // editDocument = (editorState) => {
+  //   const contentState = editorState.getCurrentContent();
+  //   clearTimeout(this.stopsEditing);
+  //   this.setState({ isEditing: true, editorState: editorState });
+  //   this.stopsEditing = setTimeout(
+  //     () => this.setState({ isEditing: false }),
+  //     1000
   //   );
+  //   api.trigger('Documents', 'update', {
+  //     id: this.props.document.id,
+  //     content: JSON.stringify(convertToRaw(contentState))
+  //   });
   // };
 
   onChange = ({ value }) => {
-    this.setState({ value }, () => {
-      // persist on backend
+    console.log('changing!!!');
+    // clearTimeout(this.state.timer);
+    // clearTimeout(timer);
+    // timer = setTimeout(() => this.setState({ isTyping: false }), 1000);
+
+    this.setState({ value: value, isTyping: true }, () => {
+      const content = JSON.stringify(value.toJSON());
+      // localStorage.setItem('content', content);
+      console.log(this.props.document);
+      api.trigger('Documents', 'update', {
+        id: this.props.document.id,
+        content: content,
+        portfolio_id: this.props.document.portfolio_id
+      });
     });
   };
 
   onKeyDown = (e, change, next) => {
-    console.log(e.key);
+    //console.log(e.key);
 
     if (!e.ctrlKey) {
       return next();
@@ -243,14 +323,18 @@ export default class TextEditor extends Component {
         </div>
 
         <h1 className="screentitle">keep scribbling... and scribbling...</h1>
-
+        <h4>
+          {this.state.someoneElseIsTyping ? 'Someone else is typing' : ''}
+        </h4>
         <div style={{ textAlign: this.state.alignment }}>
+          {/* <Editor /> is native to Slate.*/}
           <Editor
             ref={this.ref} // ref ~ document.querySelector(); React finds ref() and automatically calls the function associated with it inside render()
             value={this.state.value}
             onChange={this.onChange}
             onKeyDown={this.onKeyDown}
             renderMark={this.renderMark}
+            // plugins={plugins}
           />
         </div>
       </div>
