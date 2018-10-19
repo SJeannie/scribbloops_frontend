@@ -25,7 +25,8 @@ import { BoldMark, ItalicMark, FormatToolbar } from './index';
 import _ from 'lodash';
 import WarpCable from 'warp-cable-client';
 const api = WarpCable(Warp_URL);
-let timer;
+
+let iAmTypingTimer, someoneElseIsTypingTimer;
 
 // import InsertImages from 'slate-drop-or-paste-images';
 // import CollapseOnEscape from 'slate-collapse-on-escape';
@@ -87,7 +88,7 @@ export default class TextEditor extends Component {
     alignment: 'alignLeft',
     userID: null,
     ownerID: null,
-    isTyping: false,
+    iAmTyping: false,
     isLoading: true // added from DraftEditor
   };
 
@@ -98,39 +99,26 @@ export default class TextEditor extends Component {
       'show',
       { id: this.props.document.id },
       (document) => {
-        if (this.state.isTyping) return;
-        // this.updateEditor(document);
-        // const docValue = Value.fromJSON(JSON.parse(document.content));
-        // // instantiating a Value instance with Slate class method fromJSON
-        // this.setState({
-        //   value: docValue
-        // });
-
-        // const docValue = Value.fromJSON(JSON.parse(document.content));
-        // // instantiating a Value instance with Slate class method fromJSON
-        // this.setState({
-        //   value: docValue
-        // });
+        if (this.state.iAmTyping) return;
         this.updateEditor(document);
       }
     );
   };
 
+  // updateEditor takes in incoming changes
   updateEditor = (document) => {
-    console.log('here');
-    window.clearTimeout(this.timer);
+    window.clearTimeout(someoneElseIsTypingTimer);
     this.setState({ someoneElseIsTyping: true });
-    this.timer = window.setTimeout(() => {
-      console.log('in here');
+    someoneElseIsTypingTimer = window.setTimeout(() => {
       //_.debounce(() => {
-      console.log('doc content', document.content);
-      const docValue = Value.fromJSON(JSON.parse(document.content));
+      let content = JSON.parse(document.content) || initialValue;
+      const docValue = Value.fromJSON(content);
       // instantiating a Value instance with Slate class method fromJSON
       this.setState({
         someoneElseIsTyping: false,
         value: docValue
       });
-    }, 1000);
+    }, 300);
     //}, 500)();
   };
 
@@ -150,12 +138,13 @@ export default class TextEditor extends Component {
   // };
 
   onChange = ({ value }) => {
-    console.log('changing!!!');
-    // clearTimeout(this.state.timer);
-    // clearTimeout(timer);
-    // timer = setTimeout(() => this.setState({ isTyping: false }), 1000);
+    window.clearTimeout(iAmTypingTimer);
+    iAmTypingTimer = window.setTimeout(
+      () => this.setState({ iAmTyping: false }),
+      300
+    );
 
-    this.setState({ value: value, isTyping: true }, () => {
+    this.setState({ value: value, iAmTyping: true }, () => {
       const content = JSON.stringify(value.toJSON());
       // localStorage.setItem('content', content);
       console.log(this.props.document);
@@ -237,15 +226,15 @@ export default class TextEditor extends Component {
     this.setState({ alignment });
   };
 
-  onToggleCurrentWriter = () => {
-    // this.setState({ isTyping: !this.state.isTyping });
+  // onToggleCurrentWriter = () => {
+  //   // this.setState({ isTyping: !this.state.isTyping });
 
-    // const { isTyping } = this.state
-    // this.setState({ isTyping: !isTyping })
+  //   // const { isTyping } = this.state
+  //   // this.setState({ isTyping: !isTyping })
 
-    const isTyping = !this.state.isTyping;
-    this.setState({ isTyping });
-  };
+  //   const isTyping = !this.state.isTyping;
+  //   this.setState({ isTyping });
+  // };
 
   render() {
     return (

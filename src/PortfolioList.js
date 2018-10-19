@@ -26,7 +26,7 @@ export default class PortfolioList extends Component {
 
   createPortfolio = (e) => {
     e.preventDefault();
-    if (this.state.newPortfolio.length > 2) {
+    if (this.state.newPortfolio.length > 0) {
       fetch(`http://${API_URL}/portfolios`, {
         method: 'POST',
         headers: {
