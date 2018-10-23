@@ -8,8 +8,10 @@ import NavBar from './NavBar';
 import Advisorslist from './Advisorslist';
 import Login from './login';
 import HomePage from './HomePage';
+import Portfolio from './Portfolio';
 import { Route, NavLink, Switch, Redirect } from 'react-router-dom';
 import WarpCable from 'warp-cable-client';
+import TextEditor from './slate_components/TextEditor';
 
 window.WarpCable = WarpCable;
 
@@ -116,7 +118,9 @@ class App extends Component {
             {/* <button onClick={this.handleLogout}>Logout</button> */}
           </div>
           <Switch>
-            <Route path="/homePage" component={HomePage} />
+            <Route path="/homePage/" component={HomePage} />
+            <Route path="/document/:id" component={TextEditor} />
+            <Route path="/portfolio/:portfolioId" component={Portfolio} />
           </Switch>
         </div>
 

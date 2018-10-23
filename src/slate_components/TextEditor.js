@@ -89,17 +89,20 @@ export default class TextEditor extends Component {
     userID: null,
     ownerID: null,
     iAmTyping: false,
+    someoneElseIsTyping: false,
     isLoading: true // added from DraftEditor
   };
 
   // componentDidMount added from DraftEditor; where is isEditing coming from? Can isTyping be used instead?
   componentDidMount = () => {
+    console.log(this);
     api.subscribe(
       'Documents',
       'show',
-      { id: this.props.document.id },
+      { id: this.props.match.params.id },
       (document) => {
         if (this.state.iAmTyping) return;
+        console.log(document);
         this.updateEditor(document);
       }
     );
@@ -108,7 +111,7 @@ export default class TextEditor extends Component {
   // updateEditor takes in incoming changes
   updateEditor = (document) => {
     window.clearTimeout(someoneElseIsTypingTimer);
-    this.setState({ someoneElseIsTyping: true });
+    this.setState({ document: document, someoneElseIsTyping: true });
     someoneElseIsTypingTimer = window.setTimeout(() => {
       //_.debounce(() => {
       let content = JSON.parse(document.content) || initialValue;
@@ -132,7 +135,7 @@ export default class TextEditor extends Component {
   //     1000
   //   );
   //   api.trigger('Documents', 'update', {
-  //     id: this.props.document.id,
+  //     id: this.props.match.params.id,
   //     content: JSON.stringify(convertToRaw(contentState))
   //   });
   // };
@@ -149,9 +152,9 @@ export default class TextEditor extends Component {
       // localStorage.setItem('content', content);
       console.log(this.props.document);
       api.trigger('Documents', 'update', {
-        id: this.props.document.id,
+        id: this.props.match.params.id,
         content: content,
-        portfolio_id: this.props.document.portfolio_id
+        portfolio_id: this.state.document.portfolio_id
       });
     });
   };
@@ -239,7 +242,7 @@ export default class TextEditor extends Component {
   render() {
     return (
       <div>
-        <div>
+        <div className="portfolioListBox">
           <FormatToolbar>
             <button
               className="tooltip-icon-button"

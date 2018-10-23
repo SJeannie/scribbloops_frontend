@@ -14,7 +14,7 @@ class NavBar extends React.Component {
     return (
       <div className="topnav">
         {/* <a className="active" href="#home">Home</a> */}
-        <NavLink to="/homePage">Portfolio</NavLink>
+        <NavLink to="/homePage">Portfolios</NavLink>
         <NavLink to="/login" onClick={this.props.handleLogout}>
           Logout
         </NavLink>
