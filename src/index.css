@@ -1,3 +1,4 @@
+/* 
 html {
   height: 100%;
 }
@@ -24,8 +25,8 @@ code {
   max-width: 740px;
   background-color: white;
   box-shadow: rgba(118, 143, 255, 0.1) 0px 16px 24px 0px;
-  /* box-shadow takes in: (color, width-offset, height-offset, spread/depth) */
-  padding: 40px; /* spacing inside container */
+  box-shadow takes in: (color, width-offset, height-offset, spread/depth)
+  padding: 40px; /* spacing inside container
   margin: 65px auto 45px;
   border-radius: 4.5px;
 }
@@ -41,11 +42,12 @@ code {
   align-items: center;
   text-align: center;
   font-family: 'ubuntu';
-  /* color: 'MediumSeaGreen'; */
+  color: 'MediumSeaGreen';
   background: rgb(240, 160, 80);
   color: rgb(60, 180, 120);
 }
 
 .tooltip-icon-button {
   border: 0;
-}
+} 
+*/

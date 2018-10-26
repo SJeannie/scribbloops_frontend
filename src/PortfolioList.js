@@ -1,4 +1,15 @@
 import React, { Component } from 'react';
+import {
+  Button,
+  Jumbotron,
+  ButtonGroup,
+  ButtonToolbar,
+  Grid,
+  Row,
+  Col,
+  ListGroup,
+  ListGroupItem
+} from 'react-bootstrap';
 import PortfolioCard from './PortfolioCard';
 import DocumentList from './DocumentList';
 import { API_URL, Warp_URL } from './constants';
@@ -21,7 +32,9 @@ export default class PortfolioList extends Component {
       {
         authorization: `Bearer ${localStorage.token}`
       },
-      (data) => this.props.updatePortfolios(data)
+      (data) => {
+        this.props.updatePortfolios(data);
+      }
     );
 
     // fetch(`http://${API_URL}/portfolios`, {
@@ -64,7 +77,7 @@ export default class PortfolioList extends Component {
         currentPortfolio={this.state.currentPortfolio}
       />
     ) : (
-      this.putPortfolioCards()
+      <ListGroup>{this.putPortfolioCards()}</ListGroup>
     );
 
   handleSinglePortfolio = (portfolio) => {
@@ -75,7 +88,6 @@ export default class PortfolioList extends Component {
 
   // check this:
   destroySinglePortfolio = (portfolio) => {
-    console.log(portfolio);
     api.trigger(
       'Portfolios',
       'destroy',
@@ -108,12 +120,20 @@ export default class PortfolioList extends Component {
       <form
         onSubmit={(e) => this.createPortfolio(e)}
         onChange={this.handleNewName}>
-        <input
-          type="text"
-          name="newPortfolio"
-          placeholder="Type a new portfolio name here..."
-        />
-        <button className="newButton">Create</button>
+        <Grid>
+          <Row className="form-input">
+            <Col xs={6} md={6}>
+              <input
+                type="text"
+                name="newPortfolio"
+                placeholder="Name your new portfolio..."
+              />
+            </Col>
+            <Col xs={2}>
+              <button className="newButton">create</button>
+            </Col>
+          </Row>
+        </Grid>
       </form>
     ) : (
       ''
@@ -127,20 +147,22 @@ export default class PortfolioList extends Component {
               key={portfolio.id}
               portfolio={portfolio}
               show={this.handleSinglePortfolio}
+              deleteButton={() => this.destroySinglePortfolio(portfolio)}
             />
-            <button
+            {/* <button
               onClick={(e) => this.destroySinglePortfolio(portfolio)}
               portfolio={portfolio}>
-              Delete
-            </button>
+              delete
+            </button> */}
           </div>
         ))
       : '';
 
   render() {
+    console.log(this.props.portfolios);
     return (
       <div className="portfolioListBox">
-        <h1>All Portfolios</h1>
+        <h1>Public Portfolios</h1>
         {this.putPortfolioCreateForm()}
         <br />
         {/* <h2>PortfolioList</h2> */}

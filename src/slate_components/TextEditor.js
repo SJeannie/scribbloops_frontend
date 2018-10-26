@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Button, Jumbotron, ButtonGroup, ButtonToolbar } from 'react-bootstrap';
 import { Editor } from 'slate-react';
 // import { change } from 'slate-react';
 import { Value } from 'slate'; // import value object from Slate
@@ -90,7 +91,8 @@ export default class TextEditor extends Component {
     ownerID: null,
     iAmTyping: false,
     someoneElseIsTyping: false,
-    isLoading: true // added from DraftEditor
+    isLoading: true, // added from DraftEditor
+    document: null
   };
 
   // componentDidMount added from DraftEditor; where is isEditing coming from? Can isTyping be used instead?
@@ -101,11 +103,28 @@ export default class TextEditor extends Component {
       'show',
       { id: this.props.match.params.id },
       (document) => {
+        console.log('componentDidMount ', document);
         if (this.state.iAmTyping) return;
         console.log(document);
         this.updateEditor(document);
       }
     );
+    this.setUser();
+  };
+
+  setUser = () => {
+    if (localStorage.user) {
+      this.setState((state) => {
+        state.user = this.retrieveObject();
+        return state;
+      });
+    }
+  };
+
+  retrieveObject = () => {
+    let userObject = localStorage.getItem('user');
+    console.log('Getting user from localStorage :', userObject);
+    return JSON.parse(userObject);
   };
 
   // updateEditor takes in incoming changes
@@ -113,7 +132,6 @@ export default class TextEditor extends Component {
     window.clearTimeout(someoneElseIsTypingTimer);
     this.setState({ document: document, someoneElseIsTyping: true });
     someoneElseIsTypingTimer = window.setTimeout(() => {
-      //_.debounce(() => {
       let content = JSON.parse(document.content) || initialValue;
       const docValue = Value.fromJSON(content);
       // instantiating a Value instance with Slate class method fromJSON
@@ -122,7 +140,6 @@ export default class TextEditor extends Component {
         value: docValue
       });
     }, 300);
-    //}, 500)();
   };
 
   // editDocument added from DraftEditor; editorState and getCurrentContent() native to Draft
@@ -150,11 +167,12 @@ export default class TextEditor extends Component {
     this.setState({ value: value, iAmTyping: true }, () => {
       const content = JSON.stringify(value.toJSON());
       // localStorage.setItem('content', content);
-      console.log(this.props.document);
+      console.log('here', this.state.document);
       api.trigger('Documents', 'update', {
         id: this.props.match.params.id,
         content: content,
-        portfolio_id: this.state.document.portfolio_id
+        // portfolio_id: this.state.document.portfolio_id
+        portfolio_id: this.props.match.params.portfolio_id
       });
     });
   };
@@ -241,95 +259,107 @@ export default class TextEditor extends Component {
 
   render() {
     return (
-      <div>
-        <div className="portfolioListBox">
-          <FormatToolbar>
-            <button
-              className="tooltip-icon-button"
-              onPointerDown={(e) => this.onToggleCurrentWriter(e, 'feather')}>
-              <Icon icon={feather} />
-            </button>
+      <Jumbotron>
+        <div className="container">
+          <div className="portfolioListBox">
+            <h3 className="userName-TextEditor">
+              {this.state.user ? `${this.state.user.first_name}    ` : ''}
+            </h3>
+            <h1 className="screentitle">
+              ... keep scribbling... and scribbling...
+            </h1>
 
-            <button className="tooltip-icon-button" disabled="true">
-              <Icon icon={moreVertical} />
-            </button>
+            <ButtonToolbar>
+              <FormatToolbar>
+                <ButtonGroup>
+                  <Button
+                    disabled
+                    className="tooltip-icon-button"
+                    // onPointerDown={(e) =>
+                    //   this.onToggleCurrentWriter(e, 'feather')
+                    // }
+                  >
+                    <Icon icon={feather} />
+                  </Button>
+                </ButtonGroup>
 
-            <button
-              className="tooltip-icon-button"
-              onPointerDown={(e) => this.onMarkClick(e, 'bold')}>
-              <Icon icon={bold} />
-            </button>
-            <button
-              className="tooltip-icon-button"
-              onPointerDown={(e) => this.onMarkClick(e, 'italic')}>
-              <Icon icon={italic} />
-            </button>
+                <ButtonGroup>
+                  <Button
+                    className="tooltip-icon-button"
+                    onPointerDown={(e) => this.onMarkClick(e, 'bold')}>
+                    <Icon icon={bold} />
+                  </Button>
+                  <Button
+                    className="tooltip-icon-button"
+                    onPointerDown={(e) => this.onMarkClick(e, 'italic')}>
+                    <Icon icon={italic} />
+                  </Button>
 
-            <button
-              className="tooltip-icon-button"
-              onPointerDown={(e) => this.onMarkClick(e, 'underline')}>
-              <Icon icon={underline} />
-            </button>
+                  <Button
+                    className="tooltip-icon-button"
+                    onPointerDown={(e) => this.onMarkClick(e, 'underline')}>
+                    <Icon icon={underline} />
+                  </Button>
+                </ButtonGroup>
 
-            <button className="tooltip-icon-button" disabled="true">
-              <Icon icon={moreVertical} />
-            </button>
+                <ButtonGroup>
+                  <Button
+                    className="tooltip-icon-button"
+                    onPointerDown={(e) => this.onAlignmentChange(e, 'left')}>
+                    <Icon icon={alignLeft} />
+                  </Button>
+                  <Button
+                    className="tooltip-icon-button"
+                    onPointerDown={(e) => this.onAlignmentChange(e, 'center')}>
+                    <Icon icon={alignCenter} />
+                  </Button>
+                  <Button
+                    className="tooltip-icon-button"
+                    onPointerDown={(e) => this.onAlignmentChange(e, 'right')}>
+                    <Icon icon={alignRight} />
+                  </Button>
+                  <Button
+                    className="tooltip-icon-button"
+                    onPointerDown={(e) => this.onAlignmentChange(e, 'justify')}>
+                    <Icon icon={alignJustify} />
+                  </Button>
+                </ButtonGroup>
 
-            <button
-              className="tooltip-icon-button"
-              onPointerDown={(e) => this.onAlignmentChange(e, 'left')}>
-              <Icon icon={alignLeft} />
-            </button>
-            <button
-              className="tooltip-icon-button"
-              onPointerDown={(e) => this.onAlignmentChange(e, 'center')}>
-              <Icon icon={alignCenter} />
-            </button>
-            <button
-              className="tooltip-icon-button"
-              onPointerDown={(e) => this.onAlignmentChange(e, 'right')}>
-              <Icon icon={alignRight} />
-            </button>
-            <button
-              className="tooltip-icon-button"
-              onPointerDown={(e) => this.onAlignmentChange(e, 'justify')}>
-              <Icon icon={alignJustify} />
-            </button>
+                <ButtonGroup>
+                  <Button
+                    className="tooltip-icon-button"
+                    onPointerDown={(e) => this.onMarkClick(e, 'list')}>
+                    <Icon icon={list} />
+                  </Button>
 
-            <button className="tooltip-icon-button" disabled="true">
-              <Icon icon={moreVertical} />
-            </button>
+                  <Button
+                    className="tooltip-icon-button"
+                    onPointerDown={(e) => this.onMarkClick(e, 'code')}>
+                    <Icon icon={code} />
+                  </Button>
+                </ButtonGroup>
+              </FormatToolbar>
+            </ButtonToolbar>
+            <h3 className="someone-else-is-typing">
+              {this.state.someoneElseIsTyping
+                ? 'Someone else is typing...'
+                : ''}
+            </h3>
+          </div>
 
-            <button
-              className="tooltip-icon-button"
-              onPointerDown={(e) => this.onMarkClick(e, 'list')}>
-              <Icon icon={list} />
-            </button>
-
-            <button
-              className="tooltip-icon-button"
-              onPointerDown={(e) => this.onMarkClick(e, 'code')}>
-              <Icon icon={code} />
-            </button>
-          </FormatToolbar>
+          <div style={{ textAlign: this.state.alignment }}>
+            {/* <Editor /> is native to Slate.*/}
+            <Editor
+              ref={this.ref} // ref ~ document.querySelector(); React finds ref() and automatically calls the function associated with it inside render()
+              value={this.state.value}
+              onChange={this.onChange}
+              onKeyDown={this.onKeyDown}
+              renderMark={this.renderMark}
+              // plugins={plugins}
+            />
+          </div>
         </div>
-
-        <h1 className="screentitle">keep scribbling... and scribbling...</h1>
-        <h4>
-          {this.state.someoneElseIsTyping ? 'Someone else is typing' : ''}
-        </h4>
-        <div style={{ textAlign: this.state.alignment }}>
-          {/* <Editor /> is native to Slate.*/}
-          <Editor
-            ref={this.ref} // ref ~ document.querySelector(); React finds ref() and automatically calls the function associated with it inside render()
-            value={this.state.value}
-            onChange={this.onChange}
-            onKeyDown={this.onKeyDown}
-            renderMark={this.renderMark}
-            // plugins={plugins}
-          />
-        </div>
-      </div>
+      </Jumbotron>
     );
   }
 }

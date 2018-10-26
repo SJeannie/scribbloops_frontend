@@ -1,6 +1,6 @@
-.App {
+/* .App {
   text-align: center;
-}
+} */
 
 .divBox {
   border-radius: 25px;
@@ -22,8 +22,9 @@ body {
   background-image: url('./bg1.png');
   background-color: #ebe4ea;
 }
+
 .signInBox {
-  /* float: center; */
+  float: center;
   border-radius: 25px;
   background-image: url('./LIB1.png');
   height: 300px;
@@ -40,36 +41,36 @@ input[type='password'] {
   border: 5px solid #555;
   display: block;
   margin: 0 auto;
-  height: 20px;
-  width: 200px;
+  height: 30px;
+  width: 250px;
   top: 50%;
-  left: 50%;
+  /* left: 50%; */
 }
 .signInButton {
-  /* float: center; */
+  float: center;
   border-radius: 25px;
   background-color: #48a7cc;
   height: 30px;
   width: 100px;
   border: 5px solid gray;
   position: fixed;
-  top: 50%;
+  top: 60%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 .signUpButton {
-  /* float: center; */
+  float: center;
   border-radius: 25px;
   background-color: #48a7cc;
   height: 30px;
-  width: 100px;
+  width: 150px;
   border: 5px solid rgb(119, 117, 117);
   position: fixed;
   top: 85%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.portfolioListBox {
+/* .portfolioListBox {
   background-color: #ebe4ea;
   border-radius: 25px;
   height: fixed;
@@ -78,25 +79,25 @@ input[type='password'] {
   border: 10px solid gray;
   margin: 60px;
   float: left;
-}
+} */
 .newButton {
   /* float: center; */
   border-radius: 25px;
   background-color: #48a7cc;
   height: 30px;
-  width: 100px;
-  border: 5px solid rgb(119, 117, 117);
+  width: 90px;
+  border: 4px solid rgb(119, 117, 117);
   position: center;
   /* top: 85%;
-  left: 50%; */
-  /* transform: translate(-50%, -50%); */
+  left: 50%;
+  transform: translate(-50%, -50%); */
 }
 
 /* .App {
   text-align: justify;
 } */
 
-.App-logo {
+/* .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 40vmin;
 }
@@ -114,22 +115,54 @@ input[type='password'] {
 
 .App-link {
   color: #61dafb;
+} */
+
+h1 {
+  font-family: 'Mali';
+  color: #555;
+}
+
+.form-input {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.list-row {
+  font-family: 'Mali';
+  color: #555;
 }
 
 .screentitle {
   align-items: center;
   text-align: center;
-  font-family: 'Frutiger';
+  /* font-family: 'Frutiger'; */
+  font-family: 'Sacramento';
   /* color: 'MediumSeaGreen'; */
   background: rgb(240, 160, 80);
   color: rgb(60, 180, 120);
 }
 
-@keyframes App-logo-spin {
+.someone-else-is-typing {
+  align-items: center;
+  text-align: center;
+  font-family: 'Mali';
+  color: rgb(240, 160, 80);
+  background: rgb(60, 180, 150);
+}
+
+.userName-TextEditor {
+  border-radius: 25px;
+  font-family: 'Mali';
+  min-height: 5.5vh;
+  text-align: right;
+  color: #66489e;
+  background: rgb(60, 180, 150);
+}
+/* @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
   }
   to {
     transform: rotate(360deg);
   }
-}
+} */

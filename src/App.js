@@ -3,7 +3,6 @@ import { API_URL } from './constants';
 import { Warp_URL } from './constants';
 import './NavBar.css';
 import './App.css';
-import DraftEditor from './DraftEditor';
 import NavBar from './NavBar';
 import Advisorslist from './Advisorslist';
 import Login from './login';
@@ -97,7 +96,7 @@ class App extends Component {
 
   renderLogin = () => {
     return localStorage.token ? (
-      <div>
+      <div className="container">
         <div>
           <div className="topnav active">
             <a activeClassName="active" href="#home">

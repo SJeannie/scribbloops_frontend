@@ -1,26 +1,39 @@
 .userBox {
   border-radius: 25px;
   background-color: #b4cae6;
-  height: 90px;
+  height: 120px;
   width: 25%;
   padding: 5px;
   border: 10px solid gray;
   margin: 20px;
   float: right;
 }
+
+.userName {
+  text-align: center;
+  color: #66489e;
+}
+
+.userDocuments {
+  text-align: center;
+  color: mediumseagreen;
+}
+
+/*
 .userCard {
   border-radius: 25px;
   width: 99%;
   background-color: #9ac1d3;
   height: 10%;
-  /* width: 399px; */
+  width: 399px;
   border: 5px solid rgb(121, 94, 143);
 }
+
 .largeImage {
   display: flex;
   align-items: center;
   vertical-align: middle;
-  /* margin: 0 ; */
+  margin: 0 ;
   float: left;
   margin: auto;
   width: 80px;
@@ -28,7 +41,4 @@
   border: 1px solid gray;
   background-color: #9ac1d3;
 }
-.userName {
-  text-align: right;
-  color: #66489e;
-}
+*/

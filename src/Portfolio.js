@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Button, ListGroup, Grid, Row, Col } from 'react-bootstrap';
 import { API_URL, Warp_URL } from './constants';
 import DocumentList from './DocumentList';
 import DocumentCard from './DocumentCard';
@@ -9,13 +10,30 @@ export default class Portfolio extends Component {
   state = {
     documents: [],
     currentDocument: null,
-    portfolio: {}
+    portfolio: {},
+    user: null
   };
 
   componentDidMount = () => {
     //console.log('Portfolio: ' + this.props);
     this.getDocuments();
     this.getPortfolioObj();
+    this.setUser();
+  };
+
+  setUser = () => {
+    if (localStorage.user) {
+      this.setState((state) => {
+        state.user = this.retrieveObject();
+        return state;
+      });
+    }
+  };
+
+  retrieveObject = () => {
+    let userObject = localStorage.getItem('user');
+    console.log('Getting user from localStorage :', userObject);
+    return JSON.parse(userObject);
   };
 
   getPortfolioObj = (portfolioId) => {
@@ -29,7 +47,6 @@ export default class Portfolio extends Component {
     );
   };
 
-  // check this:
   destroySingleDocument = (e, document) => {
     e.preventDefault();
     console.log('destroySingleDocument(): ', document);
@@ -67,6 +84,19 @@ export default class Portfolio extends Component {
     //console.log(this.state.documents);
     return (
       <div>
+        <div className="userBox">
+          <h2 className="userName">
+            {this.state.user ? `${this.state.user.first_name}` : ''}
+          </h2>
+          <h4 className="userDocuments">
+            {this.state.documents.length == 1
+              ? `${this.state.documents.length} document`
+              : `${this.state.documents.length} documents`}
+          </h4>
+        </div>
+
+        <h1>{this.state.portfolio.name}</h1>
+
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -85,14 +115,28 @@ export default class Portfolio extends Component {
             //   documents: [...this.state.documents, newDoc]
             // });
           }}>
-          <input name="title" placeholder="document name" />
-          <button>create document</button>
+          <Grid>
+            <Row className="form-input">
+              <Col xs={6}>
+                <input
+                  type="text"
+                  name="title"
+                  placeholder="Name your new document..."
+                />
+              </Col>
+              <Col xs={2}>
+                <input className="newButton" type="submit" value="create" />
+              </Col>
+            </Row>
+          </Grid>
         </form>
-        <h2>{this.state.portfolio.name}</h2>
+
+        {/* <ListGroup> */}
         <DocumentList
           documents={this.state.documents}
           destroySingleDocument={this.destroySingleDocument}
         />
+        {/* </ListGroup> */}
       </div>
     );
   }

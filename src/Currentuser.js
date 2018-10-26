@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import './CurrentUser.css';
-import jeanniePic from './jeanniePic.jpg';
+// import jeanniePic from './jeanniePic.jpg';
+// <img className="largeImage" src={jeanniePic} />
 
 export default class CurrentUser extends Component {
   render() {
-    // let user = this.props.user
-    // console.log(this.props.user)
+    // this.props.user coming from HomePage.state
     return (
       <div className="userBox">
-        <img className="largeImage" src={jeanniePic} />
         <h2 className="userName">
-          {this.props.user ? this.props.user.first_name : ''}
+          {this.props.user ? `${this.props.user.first_name}` : ''}
+          {/* {this.props.user.portfolios
+            ? `${this.props.user.portfolios.length}`
+            : ''} */}
         </h2>
       </div>
     );

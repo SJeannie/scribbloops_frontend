@@ -6,7 +6,9 @@ export default class DocumentCard extends Component {
     // console.log(this.props.document)
     return (
       <div className="document-link">
-        <Link to={`/document/${this.props.document.id}`}>
+        <Link
+          style={{ fontSize: 22 }}
+          to={`/document/${this.props.document.id}`}>
           {this.props.document.title}
         </Link>
       </div>

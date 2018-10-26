@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import CurrentUser from './Currentuser';
+import CurrentUser from './CurrentUser';
 import PortfolioList from './PortfolioList';
 
 class HomePage extends Component {
   state = {
-    portfolios: []
+    portfolios: [],
+    user: null
   };
 
   updatePortfolios = (data) => {
@@ -14,11 +15,30 @@ class HomePage extends Component {
     });
   };
 
+  componentDidMount() {
+    this.setUser();
+  }
+
+  setUser = () => {
+    if (localStorage.user) {
+      this.setState((state) => {
+        state.user = this.retrieveObject();
+        return state;
+      });
+    }
+  };
+
+  retrieveObject = () => {
+    let userObject = localStorage.getItem('user');
+    console.log('Getting user from localStorage :', userObject);
+    return JSON.parse(userObject);
+  };
+
   render() {
-    // console.log(this.props.user)
+    console.log('Rendering ', this.state.user);
     return (
       <div>
-        <CurrentUser user={this.props.user} />
+        <CurrentUser user={this.state.user} />
         <PortfolioList
           portfolios={this.state.portfolios}
           handleReRender={this.props.handleReRender}

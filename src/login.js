@@ -38,7 +38,7 @@ class LogIn extends Component {
         <div>
           <br />
           {/* <h2>Not a user? </h2> */}
-          <button className="signUpButton">Sign up now!</button>
+          {/* <button className="signUpButton">Sign up now!</button> */}
         </div>
       </div>
     );

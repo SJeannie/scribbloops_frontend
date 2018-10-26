@@ -10,6 +10,7 @@
     "immutable": "^3.8.2",
     "lodash": "^4.17.11",
     "react": "^16.5.2",
+    "react-bootstrap": "^0.32.4",
     "react-dom": "^16.5.2",
     "react-icons-kit": "^1.2.0",
     "react-router-dom": "^4.3.1",
